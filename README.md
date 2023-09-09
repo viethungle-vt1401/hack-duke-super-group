@@ -1,2 +1,2 @@
-# Hack Duke Super Group
+# Hack Duke Super Squad
 Hack Duke 2023 Winners
