@@ -4,7 +4,7 @@ module.exports = { async rewrites() {
     return [
       {
         source: '/api/:path*',
-        destination: process.env.APP_API_URL + "/:path*"
+        destination: "http://localhost:3000/:path*"
       }
     ]
   }
