@@ -8,7 +8,7 @@ export default function SearchContainer() {
         <div className='search-container-placer'>
             <div className='search-container'>
                 <div className='search-icon'></div>
-                <div className='search-box'></div>
+                <div className='search-box'>Search</div>
             </div>
         </div>
       
