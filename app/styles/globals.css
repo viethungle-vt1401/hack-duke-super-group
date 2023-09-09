@@ -46,11 +46,12 @@ body {
   flex-direction: row;
   align-items: flex-end;
   justify-content: center;
+  pointer-events: none;
 }
 
 .search-container{
   width: 548px;
-  height: 90px;
+  /*height: 90px;*/
   flex-shrink: 0;
   border-radius: 20px 20px 0px 0px;
   background: #FBFBFB;
@@ -61,6 +62,8 @@ body {
   align-items: flex-end;
   padding-bottom: 15px;
   gap: 30px;
+  position: relative;
+  pointer-events: auto;
 }
 
 .up{
@@ -93,16 +96,64 @@ body {
   font-size: 28px;
 }
 
+.search-box:hover{
+  background-color: rgb(232, 232, 232);
+  transition: 0.3s;
+}
+
+.search-output-container{
+  transition: 1s;
+  pointer-events: none;
+}
+
+.active{
+  opacity: 100%;
+}
+
+.inactive{
+  opacity: 0%;
+}
+
 @keyframes searchContainerUp {
+  0% {
+    height: 90px;
+  }
   100% {
     height: 391px;
   }
 }
 
 @keyframes searchContainerDown {
+  0% {
+    height: 391px;
+  }
   100% {
     height: 90px;
   }
+}
+
+.search-output-container{
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.destinations-title{
+  color: #000;
+  font-family: Inter;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.destinations-container{
+  color: #000;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 /*add items stuff*/
@@ -111,9 +162,11 @@ body {
   position: absolute;
   right: 40px;
   top: 40px;
+  pointer-events: none;
 }
 
 .add-items-icon{
+  pointer-events: auto;
   height: 65px;
   width: 65px;
   border-radius: 100%;
@@ -123,5 +176,78 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 30px;
+  z-index: 1;
 }
 
+.add-items-icon:hover{
+  box-shadow: 0px 0px 10px #6d6d6d ;
+}
+
+/*add items popup*/
+
+.add-items-popup-placer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 10px;
+  right: 80px;
+  pointer-events: auto;
+}
+
+.add-items-popup{
+  width: 628px;
+  height: 53px;
+  border-radius: 10px;
+  background: rgba(91, 183, 222, 0.90);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-items-popup-text{
+  color: #000;
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.add-items-popup-triangle{
+  width: 47px;
+  height: 47px;
+  transform: rotate(90deg);
+  background-color: rgba(91, 183, 222, 0.90);;
+}
+
+/**/
+
+.map-container{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+}
+
+/**/
+
+.blueprint-popup-placer{
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  background-color: red;
+  z-index: 10;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.blueprint-popup-container{
+  width: 1425px;
+  height: 899px;
+  border-radius: 20px;
+  background-color: #FFF;
+  box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.25);
+}

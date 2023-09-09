@@ -67,21 +67,39 @@ end_node = find_nearest_node(graph, end_coord)
 
 # Find the shortest path using Dijkstra's algorithm
 path = dijkstra(graph, start_node, end_node)
+path_c = [node for node in path]
 
 # Print the path
 count = False
 coord2 = (0, 0)
 distance = 0
-if path:
-    for i, coord in enumerate(path):
-        print(f'Step {i}: {coord}')
-        if i == 0:
-            count = True
-            coord2 = coord
-            continue
-        distance += geodesic(coord, coord2).meters
-        coord2 = coord
 
-    print(f'Distance = {distance} meters')
+if path_c:
+    pathD = list(range(len(path_c)))
+    distance = geodesic(end_node, path_c[len(path_c)-1]).meters
+    for i in range(len(path_c)-1, 0, -1):
+        distance += geodesic(path_c[i], path_c[i-1]).meters
+        print(path_c[i])
+        pathD[i] = distance
+    pathD[0] = geodesic(path_c[0], start_node).meters + distance
+
+    print(f'Distance from current location to the end of the path = {pathD[0]} meters')
 else:
     print('Path not found')
+
+# if path:
+#     for i, coord in enumerate(path):
+#         print(f'Step {i}: {coord}')
+#         if i == 0:
+#             count = True
+#             coord2 = coord
+#             continue
+#         distance += geodesic(coord, coord2).meters
+#         coord2 = coord
+
+#     print(f'Distance = {distance} meters')
+# else:
+#     print('Path not found')
+
+
+# def update(path: list[{int, int}], current, start, end):

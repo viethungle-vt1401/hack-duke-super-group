@@ -1,31 +1,50 @@
 import { useState, useEffect } from 'react'
 import React from 'react'
- 
+
+let destinationsArr = [
+    "Nearest Bathroom",
+    "Your mom's house",
+    "Kilgo",
+    "Bella Union"
+];
+
 export default function SearchContainer() {
 
-    let [searchBoxClasses, setSearchBoxClasses] = 'search-box';
+    let [searchContainerClasses, setSearchContainerClasses] = useState('search-container down');
+    let [outputContainerStatus, setOutputContainerStatus] = useState('inactive');
+    
     function handleFocus(){
-        setSearchBoxClasses('search-box up');
+        setSearchContainerClasses('search-container up');
+        setOutputContainerStatus('active');
         console.log('up');
     }
 
     function handleBlur(){
-        setSearchBoxClasses('search-box down');
+        setSearchContainerClasses('search-container down');
+        setOutputContainerStatus('inactive');
         console.log('down');
     }
 
+    const dests = destinationsArr.map(item => {
+        return (
+            <div key={item}>
+                {item}
+            </div>
+        )
+    })
+
     return (
         <div className='search-container-placer'>
-            <div className='search-container'>
-                <div className='search-icon'></div>
-                <div>
-                    Destinations
+            <div className={searchContainerClasses}>
+                <div className='search-icon'>
                 </div>
-                <div>
-                Nearest Bathroom
-                Your mom's house
-                Kilgo
-                Bella Union
+                <div className={'search-output-container '+outputContainerStatus}>
+                    <div className='destinations-title'>
+                        Destinations
+                    </div>
+                    <div className='destinations-container'>
+                        {dests}
+                    </div>
                 </div>
                 <input onFocus={handleFocus} onBlur={handleBlur} type="text" placeholder='Search' className='search-box'/>
                 {/*<div className='search-box'>Search</div>*/}

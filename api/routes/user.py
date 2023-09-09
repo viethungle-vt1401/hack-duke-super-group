@@ -6,8 +6,9 @@ from bson import ObjectId
 user = APIRouter()
 
 
-@user.get('/')
+@user.get('/header')
 async def find_all_users():
+    return "Hello World"
     return serializeList(conn.local.user.find())
 
 # @user.get('/{id}')
