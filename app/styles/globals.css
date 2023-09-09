@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&family=Lato:wght@100&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&family=Lato:wght@100&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+@import url("https://unpkg.com/leaflet@1.7.1/dist/leaflet.css")
+
 
 @tailwind base;
 @tailwind components;
@@ -13,52 +15,36 @@
   --duke-royal-blue: 0, 83, 155;
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 1, 33, 105;
-    --background-end-rgb: 1, 33, 105;
-  }
-} */
-
-/*body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+body {
+  margin: 0;
+  padding: 0;
 }
 
-table {
-  width: 600px;
-  height: 100px;
-  border: 2px solid rgb(0, 0, 0);
-  text-align: center;
+#map {
+  width: 100%;
+  height: 100vh;
 }
 
-tr {
-  border: 1px solid rgb(0, 0, 0);
+.coordinate {
+  position: absolute;
+  bottom: 10px;
+  right: 50%;
 }
 
-h1 {
-  font-weight: bold;
-  font-size: 32px;
+.leaflet-popup-content-wrapper {
+  background-color: #000000;
+  color: #fff;
+  border: 1px solid red;
+  border-radius: 0px;
 }
 
-#filter, #data-table {
-  color: black;
-}
-
-#filter select {
-  color: rgb(var(--duke-royal-blue));
-}*/
+/*search container stuff*/
 
 .search-container-placer{
   display: flex;
+  height: 100vh;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
 }
 
@@ -72,14 +58,26 @@ h1 {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
+  padding-bottom: 15px;
+  gap: 30px;
 }
+
+.up{
+  animation: searchContainerUp 1s forwards;
+}
+
+.down{
+  animation: searchContainerDown 1s forwards;
+}
+
 
 .search-icon{
   width: 58px;
   height: 58px;
   flex-shrink: 0;
-  fill: #5BB7DE;
+  background-color: #5BB7DE;
+  border-radius: 100%;
 }
 
 .search-box{
@@ -88,4 +86,42 @@ h1 {
   flex-shrink: 0;
   border-radius: 5px;
   border: 3px solid #C0C0C0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 20px;
+  font-size: 28px;
 }
+
+@keyframes searchContainerUp {
+  100% {
+    height: 391px;
+  }
+}
+
+@keyframes searchContainerDown {
+  100% {
+    height: 90px;
+  }
+}
+
+/*add items stuff*/
+
+.add-items-container-placer{
+  position: absolute;
+  right: 40px;
+  top: 40px;
+}
+
+.add-items-icon{
+  height: 65px;
+  width: 65px;
+  border-radius: 100%;
+  background-color: #5BB7DE;
+  border: 5px solid #54A3C5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+}
+

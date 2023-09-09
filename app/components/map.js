@@ -4,7 +4,7 @@ var map = L.map('map').setView([28.3949, 84.1240], 8);
 
 
 /*==============================================
-            TILE LAYER and WMS
+            TILE LAYER and WMS
 ================================================*/
 //osm layer
 var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -55,7 +55,7 @@ var wms = L.tileLayer.wms("http://localhost:8080/geoserver/wms", {
 
 
 /*==============================================
-                    MARKER
+                    MARKER
 ================================================*/
 var myIcon = L.icon({
     iconUrl: 'img/red_marker.png',
@@ -71,7 +71,7 @@ console.log(singleMarker.toGeoJSON())
 
 
 /*==============================================
-            GEOJSON
+            GEOJSON
 ================================================*/
 var pointData = L.geoJSON(pointJson).addTo(map)
 var lineData = L.geoJSON(lineJson).addTo(map)
@@ -89,7 +89,7 @@ var polygonData = L.geoJSON(polygonJson, {
 
 
 /*==============================================
-                LAYER CONTROL
+                LAYER CONTROL
 ================================================*/
 var baseMaps = {
     "OSM": osm,
@@ -112,7 +112,7 @@ L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(map);
 
 
 /*==============================================
-                LEAFLET EVENTS
+                LEAFLET EVENTS
 ================================================*/
 map.on('mouseover', function () {
     console.log('your mouse is over the map')
@@ -125,5 +125,5 @@ map.on('mousemove', function (e) {
 
 
 /*==============================================
-                STYLE CUSTOMIZATION
+                STYLE CUSTOMIZATION
 ================================================*/

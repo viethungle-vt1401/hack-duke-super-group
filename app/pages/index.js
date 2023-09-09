@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
-//import Map from '@/components/map';
+import Map from '@/components/MapWrapper';
 import SearchContainer from '@/components/SearchContainer';
-
+import AddItemsIcon from '@/components/AddItemsIcon';
 
 // Go Data Foundry!
 
 export default function Home() {
   return (
-    <>
-      {/*<Map/>*/}
-      <SearchContainer />
-    </>
+    <div>
+      <Map/>
+      {/* <SearchContainer />
+      <AddItemsIcon /> */}
+    </div>
   )
 }
