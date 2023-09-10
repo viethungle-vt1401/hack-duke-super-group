@@ -32,7 +32,7 @@ export default function UserSuggestPopup({clickedPosition,closeSelf}) {
             <label htmlFor="cars">Choose a type</label>
             <select name="cars" id="cars" className='select-dropdown' onChange={(e) => handleChange(e)} value={dropdownVal} >
             <option value="elevator">Elevator</option>
-            <option value="staircase">Staircase</option>
+            <option value="stairs">Staircase</option>
             <option value="bathroom">Accessible Bathroom</option>
             <option value="door">Accessible Door</option>
             <option value="building">Building</option>

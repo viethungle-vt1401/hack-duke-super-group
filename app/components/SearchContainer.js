@@ -3,7 +3,8 @@ import React from 'react'
 
 let destinationsArr = [
     "Nearest Bathroom",
-    "Kilgo",
+    "Keohane 4E",
+    "Craven C Study Room",
     "Bella Union"
 ];
 

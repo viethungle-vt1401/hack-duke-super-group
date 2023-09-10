@@ -2,116 +2,135 @@ import React, { useState, useEffect } from 'react'
 import { MapContainer, TileLayer, useMap, Marker, Popup, useMapEvents, Polyline, GeoJSON } from 'react-leaflet'
 import L from 'leaflet';
 import GeoPath from './map.geojson.js';
-import { iconPerson, iconDestination, iconClicked, iconStair } from './icon';
-// import { dropdownIndicatorCSS } from 'react-select/dist/declarations/src/components/indicators.js';
+import { iconPerson, iconDestination, iconClicked, iconStair, iconPuddle, iconElevator, iconBuilding } from './icon';
 
 const pathJson = {
   "type": "FeatureCollection",
   "features": [
-      //{"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":{"coordinates":[-78.9410339434174,36.00158622799154],"type":"Point"}}]}
       {"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":{"type":"LineString","coordinates":[[-78.936635,35.999031],[-78.936347,35.998879],[-78.936421,35.998775],[-78.935695,35.998345],[-78.93556,35.998265],[-78.935541,35.998184],[-78.93565,35.998039],[-78.935715,35.998],[-78.935762,35.997983],[-78.936631,35.997889],[-78.936734,35.997906],[-78.936865,35.997947],[-78.937009,35.998005],[-78.937126,35.99806],[-78.937231,35.998123],[-78.937245,35.998131],[-78.937327,35.998193],[-78.937484,35.998325],[-78.937381,35.998473],[-78.936929,35.999119],[-78.936977,35.999143]]}}]}
   ]
 };
 
-const path2Json = {
-  "type": "FeatureCollection",
-  "features": [
-      {
-          "type": "FeatureCollection",
-          "features": [
-              {
-                  "type": "Feature",
-                  "properties": {},
-                  "geometry": {
-                      "type": "LineString",
-                      "coordinates": [
-                          [
-                              -78.939263,
-                              36.001185
-                          ],
-                          [
-                              -78.939026,
-                              36.001074
-                          ],
-                          [
-                              -78.938764,
-                              36.000947
-                          ],
-                          [
-                              -78.938743,
-                              36.000984
-                          ],
-                          [
-                              -78.938518,
-                              36.001287
-                          ],
-                          [
-                              -78.938486,
-                              36.001321
-                          ],
-                          [
-                              -78.938187,
-                              36.001733
-                          ],
-                          [
-                              -78.937843,
-                              36.002213
-                          ],
-                          [
-                              -78.937875,
-                              36.002283
-                          ],
-                          [
-                              -78.937998,
-                              36.00255
-                          ],
-                          [
-                              -78.938176,
-                              36.002627
-                          ],
-                          [
-                              -78.937895,
-                              36.00304
-                          ],
-                          [
-                              -78.937898,
-                              36.003104
-                          ],
-                          [
-                              -78.93791,
-                              36.003142
-                          ],
-                          [
-                              -78.93792,
-                              36.003164
-                          ],
-                          [
-                              -78.937931,
-                              36.00318
-                          ],
-                          [
-                              -78.93816,
-                              36.003291
-                          ],
-                          [
-                              -78.938369,
-                              36.003578
-                          ],
-                          [
-                              -78.938193,
-                              36.00384
-                          ],
-                          [
-                              -78.938258,
-                              36.003851
-                          ]
-                      ]
-                  }
-              }
-          ]
-      }
-  ]
+const buildings = {
+    "type": "FeatureCollection",
+    "features": [
+        {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+            "coordinates": [
+            -78.935872,
+            35.998884
+            ],
+            "type": "Point"
+        }
+        },
+        {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+            "coordinates": [
+            -78.939348,
+            35.999196
+            ],
+            "type": "Point"
+        }
+        }
+    ]
+
 }
+
+
+const elevators = {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+          "coordinates": [
+            -78.93688824874882,
+            35.999289307502224
+          ],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+          "coordinates": [
+            -78.94151094082889,
+            35.99957111781366
+          ],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+          "coordinates": [
+            -78.94071420749275,
+            36.000823082786454
+          ],
+          "type": "Point"
+        }
+      }
+    ]
+  }
+
+const puddles = 
+    {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {},
+            "geometry": {
+              "coordinates": [
+                -78.93806983825559,
+                35.999333192126045
+              ],
+              "type": "Point"
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {},
+            "geometry": {
+              "coordinates": [
+                -78.9382653046235,
+                35.999053628092526
+              ],
+              "type": "Point"
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {},
+            "geometry": {
+              "coordinates": [
+                -78.94049571550076,
+                35.99951956759736
+              ],
+              "type": "Point"
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {},
+            "geometry": {
+              "coordinates": [
+                -78.93922518410936,
+                36.00030177500021
+              ],
+              "type": "Point"
+            }
+          }
+        ]
+      }
+
 
 const baths = {
   "type": "FeatureCollection",
@@ -359,8 +378,6 @@ function createPathJson(path) {
     ]
   };
 
-  
-
   if (path && path.length > 0) {
     pathJsonTemplate.features[0].features[0].geometry.coordinates = path;
   }
@@ -368,58 +385,54 @@ function createPathJson(path) {
   return pathJsonTemplate;
 }
 
-
-export default function MapComponent({userIsAdding, closeUserIsAdding, clickedPosition, setClickedPosition}) {
-  const position = [36.0011902, -78.9392403];
-  const [funny, setFunny] = useState({'lat': 36.0011902, 'lng': -78.9392403, 'lat2': 36.0011902,'lng2': -78.9392403});
-  var result = []
+export default function Monkey({userIsAdding, closeUserIsAdding, clickedPosition, setClickedPosition}) {
+  const pos = [36.0011902, -78.9392403];
+  var result = [];
   const [path, setPath] = useState(null); // here
   const [pathDistance, setPathDistance] = useState(null); // here
   const [pathJsonData, setPathJsonData] = useState(pathJson);
   const [state, setState] = useState(Date.now())
 
-  const pointToLayer = (feature, latlng) => {
-    // Here we are using iconPerson for all points. 
-    // You can use different icons based on feature properties if necessary
-    return L.marker(latlng, { icon: iconPerson });
-  };
-
   function LocationMarker({ setClickedPosition }) {
-    const [position, setPosition] = useState(null);
-
-  
+    const [position, setPosition] = useState({
+        "lat": 36.00014141303757,
+        "lng": -78.94070807211797
+    });
     function sendDestToServer(data){
-      fetch("/mammamia/chimp/", {
+        fetch("/mammamia/chimp/", {
             method: "POST",
             headers: {
-              "Content-Type": "application/json",
+            "Content-Type": "application/json",
             },
             redirect: "follow", // manual, *follow, error
             referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
             body: JSON.stringify(data) // body data type must match "Content-Type" header
-          })
-              .then((res) => res.json())
-              .then((result) => {
-                setPathJsonData(createPathJson(result[0]));
-                console.log(pathJsonData)
-              })
+        })
+            .then((res) => res.json())
+            .then((result) => {
+              setPathJsonData(createPathJson(result[0]));
+              console.log(pathJsonData)
+            })
     }
+
+    useEffect(() => {
+        setState(Date.now())
+    }, [pathJsonData]);
   
     const map = useMapEvents({
       click(e) {
         setClickedPosition(e.latlng);
         if(!userIsAdding){
-          sendDestToServer({'lat': 36.0011902, 'lng': -78.9392403, 'lat2': e.latlng.lat,'lng2': e.latlng.lng});
+          sendDestToServer({'lat': position.lat, 'lng': position.lng, 'lat2': e.latlng.lat,'lng2': e.latlng.lng});
         }
         else{
           console.log('POPUP');
         }
-        //saveDataToServer({'lat': e.latlng.lat,'lng': e.latlng.lng,'type': 'elevator'})
-      }, // getting location when click
-  
+      },
+    
       locationfound(e) {
         setPosition(e.latlng);
-      },
+      }
     });
   
     useEffect(() => {
@@ -440,61 +453,87 @@ export default function MapComponent({userIsAdding, closeUserIsAdding, clickedPo
     );
   }
 
-  /*const [geoPathOutput, setGeoPathOutput] = useState(null); // Add this line to define a new state variable
-
-  function handleGeoPathOutput(stuff){
-    console.log('pltay');
-    console.log(stuff);
-    setGeoPathOutput(stuff);
-  }*/
-
-  /*const polyline = [
-    [35.999747, -78.940831],
-    [36.001293, -78.939491],
-    [36.001702, -78.941614],
-  ]*/
-
   const fillBlueOptions = { fillColor: 'blue' }
   const blackOptions = { color: 'black' }
   const limeOptions = { color: 'lime' }
   const purpleOptions = { color: 'purple' }
   const redOptions = { color: 'red' }
+  
+  const customIcon = new L.Icon({
+    iconUrl: 'path/to/your/icon.png', // Specify the path to your icon
+    iconSize: [25, 25],
+  });
 
   function CustomGeoJSON() {
     const pointToLayer = (feature, latlng) => {
       return L.marker(latlng, { icon: iconPerson });
-    };}
+    };
+  }
+
+  const markerPosition = [35.998897, -78.937299]
 
   return (
 
     <div className='map-container' key={pathJsonData}>
 
-      <MapContainer key={pathJsonData} center={position} zoom={14} scrollWheelZoom={true} style={{ height: "100%", backgroundColor: "white", marginTop: "0px", marginBottom: '0px' }}>
-      <GeoJSON
-        attribution="Paths"
-        data={pathJsonData}
-      /> 
+      <MapContainer key={pathJsonData} center={pos} zoom={14} scrollWheelZoom={true} style={{ height: "100%", backgroundColor: "white", marginTop: "0px", marginBottom: '0px' }}>
+      <span>
+        <GeoJSON key={state}
+            attribution="Paths"
+            data={pathJsonData}
+        /> 
+      </span>
+
+      <Marker 
+        position={markerPosition} 
+        icon = {iconBuilding}
+        eventHandlers={{ 
+          click: () => {
+            alert('Marker clicked!');
+          },
+        }}
+      >
+        <Popup>
+          A pretty CSS3 popup. <br /> Easily customizable.
+        </Popup>
+      </Marker>
 
       <GeoJSON
         attribution="baths"
         data={baths}
         pointToLayer={(feature, latlng) => {
-          return L.marker(latlng, { icon: iconPerson });
+            return L.marker(latlng, { icon: iconStair });
         }}
       /> 
 
-<Marker position={[51.505, -0.09]} icon={iconPerson} />
+      <GeoJSON
+        attribution="puddles"
+        data={puddles}
+        pointToLayer={(feature, latlng) => {
+            return L.marker(latlng, { icon: iconPuddle });
+        }}
+      /> 
+
+      <GeoJSON
+        attribution="elevators"
+        data={elevators}
+        pointToLayer={(feature, latlng) => {
+            return L.marker(latlng, { icon: iconElevator });
+        }}
+      /> 
+
+    <GeoJSON
+        attribution="buildings"
+        data={buildings}
+        pointToLayer={(feature, latlng) => {
+            return L.marker(latlng, { icon: iconBuilding });
+        }}
+      /> 
 
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-
-        {/* <Marker position={position} icon={}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker> */}
         
         <LocationMarker setClickedPosition={setClickedPosition} className='leaflet-marker'/>
         {clickedPosition && !userIsAdding &&
@@ -505,11 +544,8 @@ export default function MapComponent({userIsAdding, closeUserIsAdding, clickedPo
           <Marker position={clickedPosition} icon = {iconClicked} className='leaflet-marker'>
           </Marker>
         }
-        
-      
-
       </MapContainer>
     </div>
-  )
+  );
 
 }

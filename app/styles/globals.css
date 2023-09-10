@@ -22,6 +22,7 @@ body {
   height: 100vh;
   width: 100vw;
   overflow-x: hidden;
+  font-family: 'Baloo Paaji 2', cursive;
 }
 
 #map {
@@ -33,6 +34,13 @@ body {
   position: absolute;
   bottom: 10px;
   right: 50%;
+}
+
+.logo {
+  width: 300px; /* Adjust as needed */
+  height: auto; /* Maintain aspect ratio */
+  margin: 0;    /* Adjust as needed */
+  padding: 0;   /* Adjust as needed */
 }
 
 .leaflet-popup-content-wrapper {
@@ -171,7 +179,7 @@ body {
 .add-items-container-placer{
   position: absolute;
   right: 40px;
-  top: 70px;
+  top: 130px;
   pointer-events: none;
 }
 
@@ -248,10 +256,10 @@ body {
 
 .map-container{
   position: absolute;
-  top: 50px;
+  top: 0px;
   left: 0px;
   width: 100vw;
-  height: 99vh;
+  height: 100vh;
   z-index: 0;
 }
 
@@ -330,14 +338,15 @@ body {
   position: absolute;
   top: 0;
   width: 100vw;
-  height: 50px;
+  height: 150px;
   z-index: 3;
   pointer-events: auto;
-  background-color: #D9D9D9;
+  background: linear-gradient(180deg, #00AFF9 0%, rgba(0, 175, 249, 0.00) 91.15%);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-end;
   padding-right: 20px;
+  padding-top: 0px;
 }
 
 img.leaflet-marker-icon.leaflet-div-icon.leaflet-zoom-animated.leaflet-interactive{
@@ -355,22 +364,43 @@ img.leaflet-marker-icon.leaflet-div-icon.leaflet-zoom-animated.leaflet-interacti
   position: absolute;
   z-index: 1;
   pointer-events: auto;
-  top: 150px;
+  top: 200px;
   width: 100vw;
   display: flex;
   justify-content: center;
 }
 
 .user-suggest-popup{
-  width: 1008px;
-  height: 54px;
+  width: 552px;
+  height: 101px;
+  flex-shrink: 0;
   border-radius: 5px;
-  background: #D9D9D9;
+  border: 10px solid #357C9A;
+  background: #FFF;
+  box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.25);
+  font-family: Inter;
+  font-size: 20px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
+}
+
+.user-suggest-popup > select{
+  font-size: 20px;
+}
+
+.user-suggest-popup > button{
+  width: 161px;
+  height: 55px;
+  border-radius: 11px;
+  border: 3px solid #5A5A5A;
+  background: linear-gradient(96deg, #D9D9D9 6.04%, rgba(217, 217, 217, 0.62) 39.88%, rgba(217, 217, 217, 0.00) 133.98%);
+  color: #202020;
   font-family: Inter;
-  gap: 10px;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
 
 .log-nav{
@@ -397,4 +427,43 @@ img.leaflet-marker-icon.leaflet-div-icon.leaflet-zoom-animated.leaflet-interacti
 
 .log-in-container > div > div > p{
    display: none;
+}
+
+.welcome-text{
+  color: #000;
+  font-family: 'Baloo Paaji 2';
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.log-btn{
+  width: 214px;
+  height: 58px;
+  border-radius: 29px;
+  border: 2px solid #0052F0;
+  background: linear-gradient(95deg, #DEDEDE 10.74%, rgba(217, 217, 217, 0.00) 88.06%);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+  transition: 1s;
+  color: #000;
+  font-family: 'Baloo Paaji 2';
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-decoration:none;
+  transition: 0.2s;
+}
+
+.log-btn:hover{
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset, 0px 0px 20px 0px rgba(0, 0, 0, 0.80);
+}
+
+.logo{
+  position: absolute;
+  left: 40px;
+  width: 150px;
+  height: 80px;
+  transform: translate(0px, 50px);
 }
