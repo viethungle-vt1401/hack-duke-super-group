@@ -50,7 +50,7 @@ export default function Home() {
   return (
     <div>
       <div className='log-in-container'>
-        <a href="/api2/auth/login">Login</a>
+        <a href="/api/auth/login">Login</a>
       </div>
       {isClient && <MapComponent />}
       {/*<UserSuggestMarker />*/}

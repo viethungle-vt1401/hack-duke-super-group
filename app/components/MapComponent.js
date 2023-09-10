@@ -9,7 +9,7 @@ function LocationMarker({ setClickedPosition }) {
 
   function saveDataToServer(data){
 
-    fetch("/api/gorilla/", {
+    fetch("/mammamia/gorilla/", {
       method: "POST",
       // mode: "cors", // no-cors, *cors, same-origin
       // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -31,7 +31,7 @@ function LocationMarker({ setClickedPosition }) {
 
   function sendDestToServer(data){
 
-    fetch("/api/chimp/", {
+    fetch("/mammamia/chimp/", {
       method: "POST",
       // mode: "cors", // no-cors, *cors, same-origin
       // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -100,7 +100,7 @@ export default function MapComponent() {
   const redOptions = { color: 'red' }
 
   //useEffect({
-  //  fetch("/api/dog/");
+  //  fetch("/mammamia/dog/");
   //},[])
 
   return (
