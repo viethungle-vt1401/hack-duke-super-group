@@ -2,6 +2,7 @@ from pymongo import MongoClient
 import geojson
 from geopy.distance import geodesic
 
+
 def initialize():
 
     # MongoDB connection 

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-//import MapComponent from '@/components/MapComponent';
 import SearchContainer from '@/components/SearchContainer';
-import UserSuggestMarker from '@/components/UserSuggestMarker';
+import UserSuggestPopup from '@/components/UserSuggestPopup';
 import AddItemsIcon from '@/components/AddItemsIcon';
 import Blueprint from '@/components/Blueprint';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import Link from 'next/link'
 import 'leaflet/dist/leaflet.css' // fixing tiles
 
 import dynamic from 'next/dynamic';
@@ -23,6 +23,9 @@ export default function Home() {
   const [showBlueprint, setShowBlueprint] = useState(false);
   const [showAddPopup, setShowAddPopup] = useState(false);
   const [showMarker, setShowMarker] = useState(false);
+  const [userIsAdding, setUserIsAdding] = useState(false);
+  const [clickedPosition, setClickedPosition] = useState(null);
+  const [showSuggestPopup, setShowSuggestPopup] = useState(false);
 
   const {user, error, isLoading} = useUser();
 
@@ -40,23 +43,51 @@ export default function Home() {
 
   function handleAddPopupShow(){
     setShowAddPopup(true);
+    setUserIsAdding(true);
+    setShowSuggestPopup(true);
   }
 
-  // if (isLoading) return <div>Loading...</div>
-  // if (error) return <div>{error.message}</div>
-  // if (user) {}''
+  function userDetails(){
+    if (isLoading) return <div>Loading...</div>
+    if (error) return <div>{error.message}</div>;
+    return !user ?         
+        <div>
+          <Link href='/api/auth/login'><button className='log-nav'>Login</button></Link>
+        </div>
+        :
+        <div>
+          <Link href="/api/auth/logout"><button className='log-nav'>Logout</button></Link>
+          <div>
+            <h2>Welcome {user.name}!</h2>
+            <p>{user.email}</p>
+          </div>
+        </div>
+    }
+
+    function handleCloseSuggestPopup(){
+      setShowSuggestPopup(false);
+      setUserIsAdding(false);
+    }
   
 
   return (
     <div>
       <div className='log-in-container'>
-        <a href="/api/auth/login">Login</a>
+        {userDetails()}
       </div>
-      {isClient && <MapComponent />}
+      {isClient && 
+      <MapComponent 
+        userIsAdding = {userIsAdding} 
+        closeUserIsAdding = {() => setUserIsAdding(false)}
+        clickedPosition = {clickedPosition}
+        setClickedPosition = {(a) => setClickedPosition(a)}
+      />
+      }
       {/*<UserSuggestMarker />*/}
       <SearchContainer />
       <AddItemsIcon handleAddPopupClose = {handleAddPopupClose} showAddPopup = {showAddPopup} handleAddPopupShow={handleAddPopupShow}/>
       <Blueprint handleBlueprintClose = {handleBlueprintClose} showBlueprint={showBlueprint} />
+      {showSuggestPopup && <UserSuggestPopup clickedPosition = {clickedPosition} closeSelf = {handleCloseSuggestPopup()}/>}
     </div>
   );
 }

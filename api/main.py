@@ -38,17 +38,15 @@ async def turtle(query: Gorilla):
     insert(query.lat, query.lng, query.type)
     return query
 
+
 @app.post('/chimp')
 async def turt(query: Chimp):
-    #set backend dest to query.lat, query.lng
-    return graph.navigation(query.lat, query.lng, query.lat2, query.lng2)   # enter the x,y coordinates of both
+    # set backend dest to query.lat, query.lng
+    return graph.navigation(query.lng, query.lat, query.lng2, query.lat2)   # enter the x, y coordinates of both
+
 
 @app.get('/dog')
 async def frog():
-    #set backend dest to query.lat, query.lng
+    # set backend dest to query.lat, query.lng
     graph.keep_updated()
     return 'duuuude'
-
-
-# app.include_router(user)
-

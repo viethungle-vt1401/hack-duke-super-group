@@ -39,7 +39,7 @@ class Graph:
             for result in results:
                 stairs.append(result["location"]["coordinates"])
         except Exception as e:
-            print(f"Error: {str(e)}")
+            print(e)
         finally:
             client.close()
 
@@ -142,13 +142,13 @@ class Graph:
             distance = geodesic(end_node, self.path_c[len(self.path_c)-1]).meters
             for i in range(len(self.path_c)-1, 0, -1):
                 distance += geodesic(self.path_c[i], self.path_c[i-1]).meters
-                print(self.path_c[i])
+                # print(self.path_c[i])
                 self.path_d[i] = distance
             self.path_d[0] = geodesic(self.path_c[0], start_node).meters + distance
 
-            print(f'Distance from current location to the end of the path = {self.path_d[0]} meters')
+        #    print(f'Distance from current location to the end of the path = {self.path_d[0]} meters')
         else:
-            print('Path not found')
+            pass
 
         return self.path_c, distance
 
@@ -165,4 +165,4 @@ class Graph:
         distance = smallest + self.path_d[smallest_index]
         return distance
 
-# reset if reached.
+# reset if reached

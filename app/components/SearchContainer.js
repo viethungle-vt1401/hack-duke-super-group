@@ -3,7 +3,6 @@ import React from 'react'
 
 let destinationsArr = [
     "Nearest Bathroom",
-    "Your mom's house",
     "Kilgo",
     "Bella Union"
 ];
