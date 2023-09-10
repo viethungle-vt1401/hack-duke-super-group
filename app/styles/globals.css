@@ -38,6 +38,10 @@ body {
   border-radius: 0px;
 }
 
+.leaflet-div-icon {
+  background: transparent;
+}
+
 /*search container stuff*/
 
 .search-container-placer{
@@ -81,6 +85,7 @@ body {
   flex-shrink: 0;
   background-color: #5BB7DE;
   border-radius: 100%;
+  transform: translate(7px,-4px);
 }
 
 .search-box{
@@ -97,7 +102,7 @@ body {
 }
 
 .search-box:hover{
-  background-color: rgb(232, 232, 232);
+  background: linear-gradient(rgb(232, 232, 232), rgb(244, 240, 240));
   transition: 0.3s;
 }
 
@@ -170,7 +175,7 @@ body {
   height: 65px;
   width: 65px;
   border-radius: 100%;
-  background-color: #5BB7DE;
+  background: linear-gradient(#5BB7DE,#3594bc);
   border: 5px solid #54A3C5;
   display: flex;
   align-items: center;
@@ -196,7 +201,7 @@ body {
 }
 
 .add-items-popup{
-  width: 628px;
+  width: 578px;
   height: 53px;
   border-radius: 10px;
   background: rgba(91, 183, 222, 0.90);
@@ -213,10 +218,25 @@ body {
 }
 
 .add-items-popup-triangle{
-  width: 47px;
-  height: 47px;
-  transform: rotate(90deg);
-  background-color: rgba(91, 183, 222, 0.90);;
+  transform: translate(-1px,0);
+}
+
+.add-items-popup-close{
+  width: 35px;
+  height: 35px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Inter;
+  font-size: 17px;
+  background: rgba(72, 145, 176, 0.9);
+  position: absolute;
+  right: 60px;
+}
+
+.add-items-popup-close:hover{
+  background: rgba(53, 107, 130, 0.9);
 }
 
 /**/
@@ -234,20 +254,88 @@ body {
 
 .blueprint-popup-placer{
   position: absolute;
+  top: 0px;
+  right: 0px;
   width: 100vw;
   height: 100vh;
   display: flex;
   align-items: center;
-  background-color: red;
-  z-index: 10;
   justify-content: center;
   pointer-events: none;
 }
 
 .blueprint-popup-container{
-  width: 1425px;
-  height: 899px;
+  width: 95%;
+  height: 95%;
   border-radius: 20px;
   background-color: #FFF;
   box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  pointer-events: auto;
+}
+
+.blueprint-popup-close-btn{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 61px;
+  height: 61px;
+  background-color: #D9D9D9;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Inter;
+  font-size: 20px;
+}
+
+.blueprint-popup-close-btn:hover{
+  background-color: #bebebe;
+}
+
+/**/
+
+.user-suggest-marker-placer{
+  position: absolute;
+  top:0px;
+  left:0px;
+  font-family: Inter;
+}
+
+.user-suggest-marker-container{
+  width: 276px;
+  height: 98px;
+  border-radius: 10px;
+  background: #61B4D7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.user-suggest-marker-triangle{
+  transform: translate(110px,0);
+}
+
+.test-class-thing{
+  width: 50px;
+  height: 50px;
+  background-color: red;
+}
+
+.log-in-container{
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  height: 100px;
+  z-index: 3;
+  pointer-events: auto;
+  background-color: rgb(209, 230, 209);
+}
+
+img.leaflet-marker-icon.leaflet-div-icon.leaflet-zoom-animated.leaflet-interactive{
+  background-color: none !important;
 }

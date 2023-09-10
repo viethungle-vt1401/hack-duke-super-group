@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 //import MapComponent from '@/components/MapComponent';
 import SearchContainer from '@/components/SearchContainer';
+import UserSuggestMarker from '@/components/UserSuggestMarker';
 import AddItemsIcon from '@/components/AddItemsIcon';
 import Blueprint from '@/components/Blueprint';
-import { Auth0Provider } from "@auth0/auth0-react";
+import { useUser } from '@auth0/nextjs-auth0/client';
 import 'leaflet/dist/leaflet.css' // fixing tiles
 
 import dynamic from 'next/dynamic';
@@ -16,25 +17,46 @@ const MapComponent = dynamic(
   }
 );
 
+
 export default function Home() {
   const [isClient, setIsClient] = useState(false);
+  const [showBlueprint, setShowBlueprint] = useState(false);
+  const [showAddPopup, setShowAddPopup] = useState(false);
+  const [showMarker, setShowMarker] = useState(false);
+
+  const {user, error, isLoading} = useUser();
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
+  function handleBlueprintClose(){
+    setShowBlueprint(false);
+  }
+
+  function handleAddPopupClose(){
+    setShowAddPopup(false);
+  }
+
+  function handleAddPopupShow(){
+    setShowAddPopup(true);
+  }
+
+  // if (isLoading) return <div>Loading...</div>
+  // if (error) return <div>{error.message}</div>
+  // if (user) {}''
+  
+
   return (
-    <Auth0Provider
-      domain= {process.env.REACT_APP_AUTH0_DOMAIN}
-      clientId= {process.env.REACT_APP_CLIENT_ID}
-      // redirectUri={window.location.origin}
-    >
-      <div>
-        {isClient && <MapComponent />}
-        <SearchContainer />
-        <AddItemsIcon />
-        {/*<Blueprint />*/}
+    <div>
+      <div className='log-in-container'>
+        <a href="/api2/auth/login">Login</a>
       </div>
-    </Auth0Provider>
+      {isClient && <MapComponent />}
+      {/*<UserSuggestMarker />*/}
+      <SearchContainer />
+      <AddItemsIcon handleAddPopupClose = {handleAddPopupClose} showAddPopup = {showAddPopup} handleAddPopupShow={handleAddPopupShow}/>
+      <Blueprint handleBlueprintClose = {handleBlueprintClose} showBlueprint={showBlueprint} />
+    </div>
   );
 }

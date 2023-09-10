@@ -1,105 +1,168 @@
+from pymongo import MongoClient
 import geojson
 from geopy.distance import geodesic
 
-# Step 1: Load the GeoJSON Data
-with open('walkingpaths.geojson', 'r') as file:
-    geojson_data = geojson.load(file)
 
-# Step 2: Create a Graph
-graph = {}
+class Graph:
+    def __init__(self):
+        mongo_uri = "mongodb+srv://admin:sIn6KCx35V2SaAUF@hackduke.cdt1prw.mongodb.net/"
+        database_name = "Chártis_DB"
+        collection_name = "GeoMarkers"
 
-for feature in geojson_data['features']:
-    if feature['geometry']['type'] == 'LineString':
-        coordinates = feature['geometry']['coordinates']
-        for i in range(len(coordinates) - 1):
-            coord1 = tuple(coordinates[i])
-            coord2 = tuple(coordinates[i + 1])
-            weight = geodesic(coord1, coord2).meters
-            graph.setdefault(coord1, []).append((coord2, weight))
-            graph.setdefault(coord2, []).append((coord1, weight))
+        with open('walkingpaths.geojson', 'r') as file:
+            geojson_data = geojson.load(file)
 
+        self.graph = {}
+        self.path_c = []
+        self.path_d = []
 
-# Step 3: Find the Nearest Nodes
-def find_nearest_node(graph, coord):
-    return min(graph.keys(), key=lambda x: geodesic(coord, x).meters)
+        for feature in geojson_data['features']:
+            if feature['geometry']['type'] == 'LineString':
+                coordinates = feature['geometry']['coordinates']
+                for i in range(len(coordinates) - 1):
+                    coord1 = tuple(coordinates[i])
+                    coord2 = tuple(coordinates[i + 1])
+                    weight = geodesic(coord1, coord2).meters
+                    self.graph.setdefault(coord1, []).append((coord2, weight))
+                    self.graph.setdefault(coord2, []).append((coord1, weight))
 
+        # Getting stairs from DB
+        stairs = []
+        try:
+            client = MongoClient(mongo_uri)
+            db = client[database_name]
+            collection = db[collection_name]
 
-# Step 4: Implement Dijkstra's Algorithm
-def dijkstra(graph, start, end):
-    queue = []
-    visited = {node: (float('inf'), None) for node in graph}
-    visited[start] = (0, None)
+            filter_criteria = {"category": "stairs"}
+            results = collection.find(filter_criteria, {"location.coordinates": 1, "_id": 0})
 
-    queue.append(start)
+            for result in results:
+                stairs.append(result["location"]["coordinates"])
+        except Exception as e:
+            print(f"Error: {str(e)}")
+        finally:
+            client.close()
 
-    while queue:
-        current_node = min(queue, key=lambda node: visited[node][0])
-        queue.remove(current_node)
+        for s in stairs:
+            arbitrary_coord = (s[0], s[1])
 
-        if current_node == end:
-            path = []
-            while current_node:
-                path.insert(0, current_node)
-                current_node = visited[current_node][1]
-            return path
+            distances = {}
+            for vertex in self.graph.keys():
+                distance = geodesic(arbitrary_coord, vertex).meters
+                distances[vertex] = distance
 
-        for neighbor, weight in graph[current_node]:
-            distance = visited[current_node][0] + weight
-            if distance < visited[neighbor][0]:
-                visited[neighbor] = (distance, current_node)
-                queue.append(neighbor)
+            sorted_nodes = sorted(distances, key=lambda k: distances[k])[:5]
 
+            closest_distance = float('inf')
 
-# Define your start and end coordinates
-start_x = input()
-start_y = input()
-end_x = input()
-end_y = input()
-start_coord = (start_x, start_y)
-end_coord = (end_x, end_y)
+            # Iterate through the 5 closest nodes and their adjacent edges
+            for node in sorted_nodes:
+                for adjacent_vertex, weight in self.graph[node]:
+                    distance_to_start = geodesic(arbitrary_coord, node).meters
+                    distance_to_end = geodesic(arbitrary_coord, adjacent_vertex).meters
 
-# start_coord = (-78.9280652, 36.0077519)  # Replace with your start coordinate
-# end_coord = (-78.9358661, 36.0055298)  # Replace with your end coordinate
+                    t = min(1, max(0, (distance_to_start ** 2) / (distance_to_start ** 2 + distance_to_end ** 2)))
 
-# Find the nearest nodes to your start and end coordinates
-start_node = find_nearest_node(graph, start_coord)
-end_node = find_nearest_node(graph, end_coord)
+                    interpolated_point = (
+                        node[0] + t * (adjacent_vertex[0] - node[0]),
+                        node[1] + t * (adjacent_vertex[1] - node[1])
+                    )
 
-# Find the shortest path using Dijkstra's algorithm
-path = dijkstra(graph, start_node, end_node)
-path_c = [node for node in path]
+                    distance_to_interpolated_point = geodesic(arbitrary_coord, interpolated_point).meters
 
-# Print the path
-count = False
-coord2 = (0, 0)
-distance = 0
+                    # Update closest_edge if the distance is smaller
+                    if distance_to_interpolated_point < closest_distance:
+                        closest_edge1 = node
+                        closest_edge2 = adjacent_vertex
+                        # closest_edge = ((node, adjacent_vertex), distance_to_interpolated_point)
+                        # closest_distance = distance_to_interpolated_point
 
-if path_c:
-    pathD = list(range(len(path_c)))
-    distance = geodesic(end_node, path_c[len(path_c)-1]).meters
-    for i in range(len(path_c)-1, 0, -1):
-        distance += geodesic(path_c[i], path_c[i-1]).meters
-        print(path_c[i])
-        pathD[i] = distance
-    pathD[0] = geodesic(path_c[0], start_node).meters + distance
+            # Update the weight between (x1, y1) and (x2, y2) to infinity
+            for index, (node, weight) in enumerate(self.graph[closest_edge1]):
+                if node == (closest_edge2):
+                    self.graph[closest_edge1][index] = (closest_edge2, float("inf"))
+                    break
 
-    print(f'Distance from current location to the end of the path = {pathD[0]} meters')
-else:
-    print('Path not found')
+            for index, (node, weight) in enumerate(self.graph[closest_edge2]):
+                if node == closest_edge1:
+                    self.graph[closest_edge2][index] = (closest_edge1, float("inf"))
+                    break
 
-# if path:
-#     for i, coord in enumerate(path):
-#         print(f'Step {i}: {coord}')
-#         if i == 0:
-#             count = True
-#             coord2 = coord
-#             continue
-#         distance += geodesic(coord, coord2).meters
-#         coord2 = coord
+    def find_nearest_node(self, coord):
+        return min(self.graph.keys(), key=lambda x: geodesic(coord, x).meters)
 
-#     print(f'Distance = {distance} meters')
-# else:
-#     print('Path not found')
+    def dijkstra(self, start, end):
+        queue = []
 
+        visited = {node: (float('inf'), None) for node in self.graph}
+        visited[start] = (0, None)
+        queue.append(start)
 
-# def update(path: list[{int, int}], current, start, end):
+        while queue:
+            current_node = min(queue, key=lambda node: visited[node][0])
+            queue.remove(current_node)
+
+            if current_node == end:
+                path = []
+                while current_node:
+                    path.insert(0, current_node)
+                    current_node = visited[current_node][1]
+                return path
+
+            for neighbor, weight in self.graph[current_node]:
+                distance = visited[current_node][0] + weight
+                if distance < visited[neighbor][0]:
+                    visited[neighbor] = (distance, current_node)
+                    queue.append(neighbor)
+
+    def navigation(self, start_x, start_y, end_x, end_y):
+        # Define your start and end coordinates
+        # start_x = input()
+        # start_y = input()
+        # end_x = input()
+        # end_y = input()
+        start_coord = (start_x, start_y)
+        end_coord = (end_x, end_y)
+
+        # start_coord = (-78.9280652, 36.0077519)  # Replace with your start coordinate
+        # end_coord = (-78.9358661, 36.0055298)  # Replace with your end coordinate
+
+        # Find the nearest nodes to your start and end coordinates
+        start_node = self.find_nearest_node(start_coord)
+        end_node = self.find_nearest_node(end_coord)
+
+        # Find the shortest path using Dijkstra's algorithm
+        path = self.dijkstra(start_node, end_node)
+        self.path_c = [node for node in path]
+
+        distance = 0
+
+        if self.path_c:
+            self.path_d = list(range(len(self.path_c)))
+            distance = geodesic(end_node, self.path_c[len(self.path_c)-1]).meters
+            for i in range(len(self.path_c)-1, 0, -1):
+                distance += geodesic(self.path_c[i], self.path_c[i-1]).meters
+                print(self.path_c[i])
+                self.path_d[i] = distance
+            self.path_d[0] = geodesic(self.path_c[0], start_node).meters + distance
+
+            print(f'Distance from current location to the end of the path = {self.path_d[0]} meters')
+        else:
+            print('Path not found')
+
+        return self.path_c, distance
+
+    def keep_updated(self, currentx, currenty):
+        current = (currentx, currenty)
+        smallest = geodesic(self.path_c[0], current).meters
+        smallest_index = 0
+        for i in range(len(self.path_c)):
+            if smallest < geodesic(self.path_c[i], current).meters:
+                break
+            else:
+                smallest = geodesic(self.path_c[i], current).meters
+                smallest_index = i
+        distance = smallest + self.path_d[smallest_index]
+        return distance
+
+# reset if reached.

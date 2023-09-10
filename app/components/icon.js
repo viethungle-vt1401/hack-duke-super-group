@@ -1,8 +1,8 @@
 import L from 'leaflet';
 
 const iconPerson = new L.Icon({
-    iconUrl: 'images/red_marker.png',
-    iconRetinaUrl: 'images/red_marker.png',
+    iconUrl: 'images/location-sign.svg',
+    iconRetinaUrl: 'images/location-sign.svg',
     iconAnchor: null,
     popupAnchor: null,
     shadowUrl: null,

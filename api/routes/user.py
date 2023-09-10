@@ -16,6 +16,12 @@ async def find_all_users():
 #     return serializeDict(conn.local.user.find_one({"_id":ObjectId(id)}))
 
 
+@user.post('/header')
+async def find_all_users():
+    return "Hello World"
+    return serializeList(conn.local.user.find())
+
+
 @user.post('/')
 async def create_user(user: User):
     conn.local.user.insert_one(dict(user))

@@ -8,7 +8,7 @@ database_name = "Chártis_DB"
 collection_name = "GeoMarkers"
 
 
-def insert(clickx, clicky, category):
+def insert(clickx: float, clicky: float, category: str):
 
     # document = {
     #     "_id": ObjectId(),             # Generate a new ObjectId for the ID field
@@ -24,7 +24,7 @@ def insert(clickx, clicky, category):
     document = {
         "_id": ObjectId(),             # Generate a new ObjectId for the ID field
         "location": Point((clickx, clicky)),  # GeoJSON Point object
-        "category": category
+        "category": category  
     }
 
     try:
