@@ -7,10 +7,10 @@ Our journey with Chártis began with a simple observation - Duke University has 
 Our primary goal was to develop a map and navigation tool. We envisioned a platform that would seamlessly integrate open-source data with user-inputted markers to provide comprehensive accessibility information.
 
 ##  Building the Project
-# Interactive Map and Navigation
+### Interactive Map and Navigation
 Our project's core feature is an interactive map of Duke University. Leveraging the open street maps database, we displayed a detailed map of the campus. Users can also access building floor plans to locate the nearest accessible restrooms and elevators. The routing feature enabled users to navigate to any destination on campus, with the real-time feedback of the path dynamically adjusting as they progressed. 
 
-# Crowdsourcing Accessibility Data
+### Crowdsourcing Accessibility Data
 Through a crowdsourcing feature. Users can contribute data on the locations of staircases, accessible bathrooms, elevators, ramps, and more. Additionally, we introduced functionality for short-term data, such as users reporting puddles or flooded areas. Leveraging the dynamic nature of mongoDB atlas as well as its programmable triggers allows us to effectively manipulate this data. These user-generated markers are not only visible to users on the map, but they also influence the routing algorithm. For example, the algorithm can find routes that avoid staircases based on this collected data.
 
 ## Future Development
